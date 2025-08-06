@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Project 2</title>
+    <link rel="stylesheet" href="project1Styles.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+  </head>
+
+  <a href="index.html#projects" class="back-button">← Back to Projects</a>
+
+  <body>
+    <main class="project-detail-container">
+      <div class="project-detail-card">
+        <h1>Star Compass</h1>
+        <img src="project_files\proj2.jpg" alt="Project Image" />
+
+        <div class="skills">
+          <span class="skill-pill language">Embedded C / Arduino</span>
+          <span class="skill-pill hardware">Sensors</span>
+          <span class="skill-pill hardware">Embedded Systems</span>
+          <span class="skill-pill software">
+            Signal Processing and Filtering</span
+          >
+          <span class="skill-pill subject">Electronics</span>
+        </div>
+
+        <section class="project-description">
+          <h2>Description</h2>
+          <p>
+            This project is a handheld Arduino-based astrological compass that
+            guides users toward celestial bodies using real-time sensor fusion.
+            It integrates a GPS module, accelerometer, magnetometer, and
+            real-time clock to calculate the user's position, orientation, and
+            local sky coordinates via the SkyMap library. Users can select a
+            target on an LCD interface, and the device continuously updates its
+            directional guidance by comparing sensor data to the object's
+            azimuth and altitude. The system combines sensor calibration, noise
+            handling, and embedded programming to deliver an accurate and
+            interactive astronomical navigation tool.
+          </p>
+        </section>
+
+        <section class="project-links">
+          <a
+            href="project_files\star_compass_complete.zip"
+            download=""
+            class="project-link"
+          >
+            <i class="fas fa-file-code" style="margin-right: 8px"></i>
+            Download Code</a
+          >
+          <a
+            href="project_files\Robotics Final Project Report.pdf"
+            download
+            class="project-link"
+            >📄 Download Documentation</a
+          >
+        </section>
+        <section class="pdf-viewer">
+          <h2>Project Documentation</h2>
+          <iframe
+            src="project_files\Robotics Final Project Report.pdf"
+            width="100%"
+            height="600px"
+            style="border: none"
+          >
+          </iframe>
+        </section>
+      </div>
+    </main>
+  </body>
+
+  <footer>&copy; 2025 Wes Scarpa</footer>
+</html>

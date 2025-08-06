@@ -1,0 +1,389 @@
+{
+  "accessors": [
+    {
+      "bufferView": 2,
+      "componentType": 5126,
+      "count": 16639,
+      "max": [
+        50.846405029296875,
+        50.846405029296875,
+        50.846405029296875
+      ],
+      "min": [
+        -50.846405029296875,
+        -50.846405029296875,
+        -50.846405029296875
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 199668,
+      "componentType": 5126,
+      "count": 16639,
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 3,
+      "componentType": 5126,
+      "count": 16639,
+      "type": "VEC4"
+    },
+    {
+      "bufferView": 1,
+      "componentType": 5126,
+      "count": 16639,
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 0,
+      "componentType": 5125,
+      "count": 97536,
+      "type": "SCALAR"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 399336,
+      "componentType": 5126,
+      "count": 16639,
+      "max": [
+        50.0,
+        50.0,
+        50.0
+      ],
+      "min": [
+        -50.0,
+        -50.0,
+        -50.0
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 599004,
+      "componentType": 5126,
+      "count": 16639,
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 3,
+      "byteOffset": 266224,
+      "componentType": 5126,
+      "count": 16639,
+      "type": "VEC4"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 133112,
+      "componentType": 5126,
+      "count": 16639,
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 266224,
+      "componentType": 5126,
+      "count": 16639,
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 399336,
+      "componentType": 5126,
+      "count": 16639,
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 0,
+      "byteOffset": 390144,
+      "componentType": 5125,
+      "count": 97536,
+      "type": "SCALAR"
+    }
+  ],
+  "asset": {
+    "generator": "fab-model-conversion",
+    "version": "2.0"
+  },
+  "bufferViews": [
+    {
+      "buffer": 0,
+      "byteLength": 780288,
+      "target": 34963
+    },
+    {
+      "buffer": 0,
+      "byteLength": 532448,
+      "byteOffset": 780288,
+      "byteStride": 8,
+      "target": 34962
+    },
+    {
+      "buffer": 0,
+      "byteLength": 798672,
+      "byteOffset": 1312736,
+      "byteStride": 12,
+      "target": 34962
+    },
+    {
+      "buffer": 0,
+      "byteLength": 532448,
+      "byteOffset": 2111408,
+      "byteStride": 16,
+      "target": 34962
+    }
+  ],
+  "buffers": [
+    {
+      "byteLength": 2643856,
+      "uri": "scene.bin"
+    }
+  ],
+  "extensionsUsed": [
+    "KHR_materials_specular"
+  ],
+  "images": [
+    {
+      "uri": "textures/Clouds_baseColor.jpeg"
+    },
+    {
+      "uri": "textures/Clouds_metallicRoughness.jpeg"
+    },
+    {
+      "uri": "textures/Clouds_normal.jpeg"
+    },
+    {
+      "uri": "textures/Clouds_specular_f0.png"
+    },
+    {
+      "uri": "textures/Planet_baseColor.jpeg"
+    },
+    {
+      "uri": "textures/Planet_metallicRoughness.png"
+    },
+    {
+      "uri": "textures/Planet_normal.jpeg"
+    }
+  ],
+  "materials": [
+    {
+      "alphaMode": "BLEND",
+      "doubleSided": true,
+      "extensions": {
+        "KHR_materials_specular": {
+          "specularColorFactor": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "specularFactor": 1.0,
+          "specularTexture": {
+            "index": 3
+          }
+        }
+      },
+      "name": "Clouds",
+      "normalTexture": {
+        "index": 2
+      },
+      "occlusionTexture": {
+        "index": 1
+      },
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          1.0,
+          1.0,
+          1.0,
+          0.6871165644171779
+        ],
+        "baseColorTexture": {
+          "index": 0
+        },
+        "metallicFactor": 0.0,
+        "metallicRoughnessTexture": {
+          "index": 1
+        }
+      }
+    },
+    {
+      "doubleSided": true,
+      "name": "Planet",
+      "normalTexture": {
+        "index": 6,
+        "scale": 0.27607361963190186
+      },
+      "occlusionTexture": {
+        "index": 5
+      },
+      "pbrMetallicRoughness": {
+        "baseColorTexture": {
+          "index": 4
+        },
+        "metallicFactor": 0.0,
+        "metallicRoughnessTexture": {
+          "index": 5
+        }
+      }
+    }
+  ],
+  "meshes": [
+    {
+      "name": "Clouds_Clouds_0",
+      "primitives": [
+        {
+          "attributes": {
+            "NORMAL": 1,
+            "POSITION": 0,
+            "TANGENT": 2,
+            "TEXCOORD_0": 3
+          },
+          "indices": 4,
+          "material": 0,
+          "mode": 4
+        }
+      ]
+    },
+    {
+      "name": "Earth_Planet_0",
+      "primitives": [
+        {
+          "attributes": {
+            "NORMAL": 6,
+            "POSITION": 5,
+            "TANGENT": 7,
+            "TEXCOORD_0": 8,
+            "TEXCOORD_1": 9,
+            "TEXCOORD_2": 10
+          },
+          "indices": 11,
+          "material": 1,
+          "mode": 4
+        }
+      ]
+    }
+  ],
+  "nodes": [
+    {
+      "children": [
+        1
+      ],
+      "matrix": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        2.220446049250313e-16,
+        -1.0,
+        0.0,
+        0.0,
+        1.0,
+        2.220446049250313e-16,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "name": "Sketchfab_model"
+    },
+    {
+      "children": [
+        2
+      ],
+      "matrix": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        -1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "name": "c8ba9a8338214a79b1c00aba7e949ad5.fbx"
+    },
+    {
+      "children": [
+        3,
+        5
+      ],
+      "name": "RootNode"
+    },
+    {
+      "children": [
+        4
+      ],
+      "name": "Clouds"
+    },
+    {
+      "mesh": 0,
+      "name": "Clouds_Clouds_0"
+    },
+    {
+      "children": [
+        6
+      ],
+      "name": "Earth"
+    },
+    {
+      "mesh": 1,
+      "name": "Earth_Planet_0"
+    }
+  ],
+  "samplers": [
+    {
+      "magFilter": 9729,
+      "minFilter": 9987,
+      "wrapS": 10497,
+      "wrapT": 10497
+    }
+  ],
+  "scene": 0,
+  "scenes": [
+    {
+      "name": "Sketchfab_Scene",
+      "nodes": [
+        0
+      ]
+    }
+  ],
+  "textures": [
+    {
+      "sampler": 0,
+      "source": 0
+    },
+    {
+      "sampler": 0,
+      "source": 1
+    },
+    {
+      "sampler": 0,
+      "source": 2
+    },
+    {
+      "sampler": 0,
+      "source": 3
+    },
+    {
+      "sampler": 0,
+      "source": 4
+    },
+    {
+      "sampler": 0,
+      "source": 5
+    },
+    {
+      "sampler": 0,
+      "source": 6
+    }
+  ]
+}

@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portfolio - Wes Scarpa</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css"> <!-- Link to the CSS file -->
+</head>
+
+<body>
+  
+  <!-- Navigation Icon (Hamburger) -->
+  <div id="menu-icon">
+    <i class="fas fa-bars"></i>
+  </div>
+
+  
+ 
+
+  <!-- Slide-Out Navigation Menu -->
+  <div id="side-nav">
+    <ul>
+      <li><a href="#solar-system">Home</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </div>
+
+
+  <!-- Navigation -->
+  <header>
+    <nav>
+      <h1>Wes Scarpa</h1>
+      <p>3-2 Physics & Engineering Student @ Occidental College</p>
+
+      <ul>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <div id="solar-system"></div> <!-- This is the 3D solar system container -->
+  <div id="info-text">Click and drag to rotate. Scroll to zoom in and out.</div>
+
+
+
+  <section id="crawl">
+
+    <div id="titles">
+      <div id="titlecontent">
+        <!-- Content goes here -->
+        <h1>About Me</h1>
+        <h2>Welcome to My Portfolio</h2>
+        <p>
+          My name is Wes Scarpa and I am a 3-2 Physics & Engineering student at Occidental College with a passion for
+          combining design and science to build things that matter.
+        </p>
+        <p>
+          Scroll down to explore my projects, simulations, and skills...
+        </p>
+      </div>
+  </section>
+
+
+  <script>
+    const titles = document.getElementById('titles');
+    const titleContent = document.getElementById('titlecontent');
+
+    let perspective = 300;  // initial perspective px
+    let positionPercent = 100; // initial top position (%)
+    let crawlLocked = false;
+    let scrollY = window.scrollY;
+    const minPerspective = 100;
+    const maxPerspective = 800;
+    const minTop = -170; // how far text scrolls up (in %)
+    const maxTop = 100; // start below container
+
+    function isCentered(elem) {
+      const rect = elem.getBoundingClientRect();
+      const screenCenter = window.innerHeight / 2;
+      const elementCenter = rect.top + rect.height / 2;
+      return Math.abs(elementCenter - screenCenter) < 20;// 10px tolerance for centering
+    }
+
+    function lockCrawl() {
+
+      console.log('Crawl locked');
+      scrollY = window.scrollY || window.pageYOffset;
+      console.log('Crawl locked at scrollY:', scrollY);
+      // document.body.classList.add('locked');
+      // crawl.classList.add('locked');
+      crawlLocked = true;
+
+
+      document.body.style.position = 'fixed';
+      document.body.style.top = `-${650}px`;
+      document.body.style.left = '0';
+      document.body.style.right = '0';
+      document.body.style.overflow = 'hidden';
+
+    }
+
+    function unlockCrawl() {
+      console.log('Crawl unlocked');
+      // document.body.classList.remove('locked');
+      // crawl.classList.remove('locked');
+      crawlLocked = false;
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.overflow = '';
+      window.scrollTo(0, 650);
+
+
+    }
+
+    function updatePosition() {
+      titleContent.style.top = `${positionPercent}%`;
+    }
+
+    window.addEventListener('scroll', () => {
+      scrollY = window.scrollY || window.pageYOffset;
+      // console.log('Current scroll Y position:', scrollY);
+    });
+
+    window.addEventListener('wheel', (e) => {
+      while (crawlLocked) {
+        e.preventDefault(); // Prevent scrolling when locked
+        return;
+      }
+    }, { passive: false });
+
+
+    // Attach wheel event to the #crawl element instead of window
+    const crawl = document.getElementById('crawl');
+    crawl.addEventListener('wheel', (e) => {
+      // console.log('positionPercent:', positionPercent.toFixed(2));
+      // console.log('e.deltaY:', e.deltaY.toFixed(2));
+      // console.log('crawlLocked:', crawlLocked);
+      // console.log('isCentered:', isCentered(titleContent));
+      //locks the crawl when centered
+      if ((positionPercent <= -60 && e.deltaY > 0) && crawlLocked || (positionPercent >= 100 && e.deltaY < 0) && crawlLocked) {
+        unlockCrawl();
+
+      } else if (positionPercent <= -60 && e.deltaY < 0 && !crawlLocked && isCentered(crawl)) { //prevent scrolling up when text is at the top
+        lockCrawl();
+
+      } else if (positionPercent <= 100 && e.deltaY > 0 && !crawlLocked && isCentered(crawl)) { //prevent scrolling down when text is at the bottom
+        lockCrawl();
+
+      }
+
+      if (crawlLocked) {
+        // e.preventDefault(); // Prevent scrolling when locked    
+        // window.scrollTo(0, 650);//Maintain current scroll position
+        positionPercent -= e.deltaY * 0.02; // Adjust scroll speed
+        positionPercent = Math.min(maxTop, Math.max(minTop, positionPercent));
+        updatePosition();
+
+      } else {
+        scrollY = window.scrollY || window.pageYOffset;
+      }
+
+
+    }, { passive: false });
+
+    // Initialize
+    updatePosition();
+  </script>
+
+  <div id="content">
+
+    <!-- Project Section -->
+    <section id="projects">
+      <h2>My Projects</h2>
+      <div class="gallery">
+        <div class="project-card" onclick="window.location.href='project1.html'">
+          <img src="project_files/windtunnelproject_photo.png" alt="Wind Tunnel Vector Field">
+          <h3>Wind Tunnel Simulation</h3>
+          <div class="skills">
+            <span class="skill-pill language">Python</span>
+            <span class="skill-pill framework">NumPy</span>
+            <span class="skill-pill framework">Matplotlib</span>
+            <span class="skill-pill subject">Simulations</span>
+            <span class="skill-pill subject">Fluid Dynamics</span>
+          </div>
+        </div>
+        <div class="project-card" onclick="window.location.href='project2.html'">
+          <img src="project_files\proj2.jpg" alt="Project 2">
+          <h3>Star Compass</h3>
+          <div class="skills">
+            <span class="skill-pill language">Embedded C / Arduino</span>
+            <span class="skill-pill hardware">Sensors</span>
+            <span class="skill-pill hardware">Embedded Systems</span>
+            <span class="skill-pill software">
+              Signal Processing and Filtering</span
+            >
+            <span class="skill-pill subject">Electronics</span>
+          </div>
+        </div>
+        <div class="project-card" onclick="window.location.href='project3.html'">
+          <div class="mini-map-container" style="position: relative; width: 100%; height: 200px; overflow: hidden; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.3);">
+            <iframe src="index.html" style="width: 100%; height: 100%; transform: scale(1); transform-origin: top left; border: none; pointer-events: none;"></iframe>
+            <div id="viewport-box" style="position: absolute; border: 2px solid red; box-sizing: border-box;"></div>
+          </div>
+          <h3>Portfolio Website</h3>
+          <div class="skills">
+            <span class="skill-pill language">HTML</span>
+            <span class="skill-pill language">JavaScript</span>
+            <span class="skill-pill language">CSS</span>
+          </div>
+        </div>
+        
+      </div>
+    </section>
+
+    <!-- Project Modal (Initially Hidden) -->
+    <div id="project-modal" class="modal" style="display: none;">
+      <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <h2 id="modal-title"></h2> <!-- This is the missing title element -->
+        <img id="modal-image" src="" alt="Project Image">
+        <p id="modal-description"></p>
+        <div id="modal-downloads" class="downloads"></div> <!-- Download Links -->
+      </div>
+    </div>
+
+
+    <!--Borrowed from https://thanhvtran.com -->
+    <section id="timeline">
+
+    <h2>My Journey</h2>
+      <div class="elementor-element elementor-element-55c2fe1 elementor-widget elementor-widget-timeline-widget-addon"
+        data-id="55c2fe1" data-element_type="widget" data-widget_type="timeline-widget-addon.default">
+        <div class="elementor-widget-container">
+          <!-- ========= Timeline Widget Addon For Elementor 1.6.8 ========= -->
+          <div id="twae-wrapper-55c2fe1" class="twae-vertical twae-wrapper  twae-both-sided">
+            <div class="twae-start"></div>
+            <div id="twea-timeline-55c2fe1" class="twae-timeline">
+              <!-- Start of Story Repeater Content -->
+              <div id="story-dc2fcc3" class="twae-story twae-repeater-item twae-story-right twae-story-no-icon">
+                <!-- Story Label -->
+                <div class="twae-labels">
+                  <div class="twae-label-big">May 2025 - Aug 2025</div>
+                  <div class="twae-label-small">Los Angeles, CA</div>
+                </div>
+                <!-- Story Icon -->
+                <div class="twae-icon" style="background-color: #f0f0f0; border-radius: 50%; padding: 0px;">
+                  <img src="timeline/laincubator_logo-removebg-preview.png" alt="" />
+                </div>
+                <!-- Story Arrow -->
+                <div class="twae-arrow"></div>
+                <!-- Start of Story Content -->
+                <div class="twae-content">
+                  <!-- Story Title -->
+                  <div class="twae-title">LACI - Unlocking Innovation Intern</div>
+                  <!-- Story Image -->
+                  <div class="twae-media large"><img loading="lazy" decoding="async" width="1024" height="577"
+                      src="timeline/La-Kretz4360ppl_p.jpg" class="attachment-large size-large" alt=""
+                      sizes="(max-width: 1024px) 100vw, 1024px"></div>
+                  <!-- Story Description -->
+                  <div class="twae-description">
+                    <p>-----INSERT DESCRIPTION-----</p>
+                  </div>
+                </div>
+              </div>
+
+
+              <div id="story-88d0ffc" class="twae-story twae-repeater-item twae-story-left twae-story-no-icon">
+                <!-- Story Label -->
+                <div class="twae-labels">
+                  <div class="twae-label-big">Aug 2025 - Current</div>
+                  <div class="twae-label-small">Los Angeles, CA</div>
+                </div>
+                <!-- Story Icon -->
+                <div class="twae-icon" style="background-color: #f0f0f0; border-radius: 50%; padding: 0px;">
+                  <img src="timeline/Occidental_College-02-removebg-preview.png" alt="" />
+                </div>
+                <!-- Story Arrow -->
+                <div class="twae-arrow"></div>
+                <!-- Start of Story Content -->
+                <div class="twae-content">
+                  <!-- Story Title -->
+                  <div class="twae-title">Occidental College - ITS Technician</div>
+                  <!-- Story Image -->
+                  <div class="twae-media large"><img loading="lazy" decoding="async" width="1024" height="576"
+                      src="timeline/oxy_its_1440x800.jpg" class="attachment-large size-large" alt=""
+                      sizes="(max-width: 1024px) 100vw, 1024px"></div>
+                  <!-- Story Description -->
+                  <div class="twae-description">
+                    <p>-----INSERT DESCRIPTION-----</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="twae-end"></div>
+          </div>
+        </div>
+
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills">
+      <h2>My Skills</h2>
+      <div id="skills-container">
+        <canvas id="skills-canvas"></canvas>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact">
+      <h2>Contact Me</h2>
+      <form id="contact-form">
+        <input type="text" placeholder="Your Name" required>
+        <input type="email" placeholder="Your Email" required>
+        <textarea placeholder="Your Message" required></textarea>
+        <button type="submit">Send Message</button>
+        <p id="form-status"></p>
+      </form>
+    </section>
+
+    <!-- Contact Icons Section -->
+    <section id="contact-icons">
+      <a href="mailto:scarpa@oxy.edu" target="_blank" class="contact-icon">
+        <i class="fas fa-envelope"></i>
+      </a>
+      <a href="https://linkedin.com/in/wes-scarpa" target="_blank" class="contact-icon">
+        <i class="fab fa-linkedin"></i>
+      </a>
+      <a href="https://github.com/wesscarpa" target="_blank" class="contact-icon">
+        <i class="fab fa-github"></i>
+      </a>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      <p>© 2025 Wes Scarpa. All rights reserved.</p>
+    </footer>
+  </div>
+
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.124.0/build/three.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+  <script type="module" src="app.js"></script>
+  <script src="modal.js"></script>
+  <script src="scripts.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
+
+  <script src="skills.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,207 @@
+/* --- Global Styles --- */
+html,
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+  font-family: "Times New Roman", Times, serif; /* ← Change font */
+  background-color: #222;
+  color: #f0f0f0;
+  box-sizing: border-box;
+  overflow-x: hidden;
+}
+
+/* Back Button */
+.back-button {
+  display: inline-block;
+  margin: 1rem 1.5rem 0;
+  padding: 0.5rem 1rem;
+  background-color: rgba(177, 171, 171, 0.3);
+  color: #f0f0f0;
+  text-decoration: none;
+  border: 1px solid rgba(177, 171, 171, 0.5);
+  border-radius: 6px;
+  transition: 0.3s;
+}
+
+.back-button:hover {
+  background-color: #ffffff;
+  color: #000000;
+  border-color: #000000;
+}
+
+/* Main Container */
+.project-detail-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+  display: flex;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+.project-detail-card {
+  width: 100%;
+  max-width: 900px;
+  background: rgba(177, 171, 171, 0.5);
+  border-radius: 20px;
+  padding: 2rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+  box-sizing: border-box; /* Prevent padding from causing overflow */
+}
+
+/* Headings */
+.project-detail-card h1 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  font-weight: 700;
+}
+
+.project-detail-card img {
+  width: 100%;
+  height: auto;
+  max-width: 600px;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  margin: 0 auto 1.5rem; /* <-- Centers horizontally */
+  display: block; /* <-- Needed for margin auto to work */
+}
+
+/* Skill Pills */
+.skills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+  justify-content: flex-start;
+}
+
+.skill-pill {
+  font-size: 0.75rem;
+  font-weight: bold;
+  padding: 0.3rem 0.7rem;
+  border-radius: 999px;
+  white-space: nowrap;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  transition: transform 0.2s;
+  color: black;
+}
+
+.skill-pill:hover {
+  transform: scale(1.05);
+}
+
+/* Neon color categories (matching homepage) */
+.skill-pill.language {
+  background-color: #ff00e6;
+}
+.skill-pill.framework {
+  background-color: #1cff2f;
+}
+.skill-pill.tool {
+  background-color: #ff6f00;
+}
+.skill-pill.hardware {
+  background-color: #ff0000;
+}
+.skill-pill.software {
+  background-color: #eeff00;
+}
+.skill-pill.subject {
+  background-color: #01eeff;
+}
+
+/* Project Description */
+.project-description {
+  margin-top: 2rem;
+}
+
+.project-description h2 {
+  margin-top: 2rem;
+  font-size: 1.6rem;
+  color: #f0f0f0;
+}
+
+.project-description p {
+  font-size: 1rem;
+  line-height: 1.7;
+  margin-top: 0.5rem;
+}
+
+/* Project Links */
+.project-links {
+  margin-top: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.project-link {
+  color: #f0f0f0;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 1rem;
+  transition: color 0.3s;
+}
+
+.project-link:hover {
+  color: #5bccfc;
+}
+
+/* PDF Viewer */
+.pdf-viewer h2 {
+  margin-top: 2rem;
+  font-size: 1.6rem;
+  color: #f0f0f0;
+}
+
+.pdf-viewer iframe {
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Footer */
+footer {
+  background-color: #111;
+  color: #aaa;
+  text-align: center;
+  padding: 20px;
+  font-size: 0.9rem;
+  margin-top: 3rem;
+}
+@media (max-width: 768px) {
+  .project-detail-card {
+    padding: 1.2rem;
+  }
+
+  .project-banner {
+    height: 25vh;
+    min-height: 150px;
+  }
+
+  .pdf-viewer iframe {
+    height: 400px;
+  }
+}
+
+@media (max-width: 480px) {
+  .project-detail-container {
+    width: 95%;
+    padding: 1rem;
+  }
+
+  .project-detail-card h1 {
+    font-size: 1.6rem;
+    text-align: center;
+  }
+
+  .skills {
+    gap: 0.3rem;
+  }
+
+  .skill-pill {
+    font-size: 0.65rem;
+    padding: 0.25rem 0.5rem;
+  }
+}

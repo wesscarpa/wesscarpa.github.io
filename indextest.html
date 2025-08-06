@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Star Wars Crawl with Scroll Control</title>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=News+Cycle:wght@700&display=swap');
+
+    body {
+      margin: 0;
+      height: 100vh;
+    }
+
+
+    body.locked {
+      overflow: hidden;
+    }
+
+    #crawl {
+      background: black;
+      color: #feda4a; /* classic Star Wars yellow */
+      font-family: 'News Gothic Bold', sans-serif;
+      overflow-x: hidden;
+      height: 100vh;
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    #crawl.locked {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 10;
+      background-color: black
+    }
+
+    #titles {
+        position: absolute;
+        width: 18em;
+        height: 50em;
+        bottom: 0;
+        left: 50%;
+        margin-left: -9em;
+        font-size: 400%;
+        font-weight: 700;
+        text-align: justify;
+        overflow: hidden;
+        transform-origin: 50% 100%;
+        transform: perspective(300px) rotateX(25deg);
+        transition: transform 0.1s ease-out;
+    }
+
+    #titles::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 60%;
+        pointer-events: none;
+        background: linear-gradient(to bottom, rgba(0,0,0,1) 0%, transparent 100%);
+    }
+
+    #titlecontent {
+        position: absolute;
+        width: 100%;
+        top: 100%;
+        white-space: pre-line; /* preserve line breaks */
+    }
+
+    #titlecontent h1 {
+        margin: 0;
+        text-align: center;
+        font-size: 1em;
+    }
+
+    #titlecontent h2 {
+        margin: 0;
+        text-align: center;
+    }
+
+    p {
+        margin: 0 0;
+        line-height: 2;
+    }
+</style>
+</head>
+
+<header>
+  <nav>
+    <h1>Wes Scarpa</h1>
+    <p>3-2 Physics & Engineering Student @ Occidental College</p>
+  </nav>
+</header>
+<body>
+
+  <section id="crawl">
+    
+    <div id="titles">
+      <div id="titlecontent">
+        <!-- Content goes here -->
+        <h1>About</h1>
+        <h2>Welcome to My Portfolio</h2>
+          <p>
+            My name is Wes Scarpa and I am a 3-2 Physics & Engineering student at Occidental College with a passion for combining design and science to build things that matter.
+          </p>
+          <p>
+            Scroll down to explore my projects, simulations, and skills...
+          </p>
+    </div>
+  </section>
+
+
+<section style="height: 100vh; background-color: #111;">
+  <h2>Projects</h2>
+  <p>Details about your projects...</p>
+</section>
+
+<section style="height: 100vh; background-color: #222;">
+  <h2>Contact</h2>
+  <p>Get in touch...</p>
+</section>
+
+  
+
+<script>
+  const titles = document.getElementById('titles');
+  const titleContent = document.getElementById('titlecontent');
+
+  let perspective = 300;  // initial perspective px
+  let positionPercent = 100; // initial top position (%)
+  let crawlLocked = false;
+  const minPerspective = 100;
+  const maxPerspective = 800;
+  const minTop = -170; // how far text scrolls up (in %)
+  const maxTop = 100; // start below container
+
+  function isCentered(elem) {
+    const rect = elem.getBoundingClientRect();
+    const screenCenter = window.innerHeight / 2;
+    const elementCenter = rect.top + rect.height / 2;
+    return Math.abs(elementCenter - screenCenter) < 20;// 10px tolerance for centering
+  }
+
+  function lockCrawl() {
+    console.log('Crawl locked');
+    document.body.classList.add('locked');
+    crawl.classList.add('locked');
+    crawlLocked = true;
+  }
+
+  function unlockCrawl() {
+    document.body.classList.remove('locked');
+    crawl.classList.remove('locked');
+    crawlLocked = false;
+  }
+
+  function updatePosition() {
+    titleContent.style.top = `${positionPercent}%`;
+  }
+
+  window.addEventListener('wheel', e => {
+    console.log('positionPercent:', positionPercent.toFixed(2));
+    console.log('e.deltaY:', e.deltaY.toFixed(2));
+    console.log('crawlLocked:', crawlLocked);
+    console.log('isCentered:', isCentered(titleContent));
+    //locks the crawl when centered
+    if((positionPercent <= -60 && e.deltaY > 0)||( positionPercent >= 100 && e.deltaY < 0)) {
+      unlockCrawl();
+    }else if(positionPercent <= -60 && e.deltaY < 0 && !crawlLocked && isCentered(crawl)){ //prevent scrolling up when text is at the top
+      lockCrawl();
+      e.preventDefault();
+    }else if(positionPercent <=100 && e.deltaY > 0 && !crawlLocked && isCentered(crawl)){ //prevent scrolling down when text is at the bottom
+      lockCrawl();
+      e.preventDefault();
+    }
+    
+    if(crawlLocked) {
+      e.preventDefault();
+
+    
+
+      positionPercent -= e.deltaY * 0.01;
+      positionPercent = Math.min(maxTop, Math.max(minTop, positionPercent));
+
+      updatePosition();
+      
+    } 
+    
+    
+  }, { passive: false });
+
+  // Initialize
+  updatePosition();
+</script>
+
+</body>
+<footer>
+  <p>© 2023 Wes Scarpa</p>  
+</footer>
+
+
+</html>

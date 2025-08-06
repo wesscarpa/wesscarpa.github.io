@@ -1,0 +1,46 @@
+/* Make sure body allows scrolling */
+body {
+    margin: 0;
+    padding: 0;
+    overflow: auto; /* Enable scrolling */
+  }
+  
+  /* Skills Section */
+  #skills {
+    padding: 50px 20px;
+    text-align: center;
+    min-height: 100vh; /* Ensures that the section is at least as tall as the viewport */
+  }
+  
+  #skills h2 {
+    font-size: 36px;
+    margin-bottom: 20px;
+  }
+  
+  #skills ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  #skills li {
+    font-size: 20px;
+    margin: 10px 0;
+  }
+  
+  #skills-container {
+    width: 800px;
+    height: 600px;
+    position: relative;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    overflow: hidden;
+    background-color: #f0f0f0;
+  }
+  
+  #skills-canvas {
+    position: relative;
+    top: 0;
+    left: 0;
+  }
+  
+  

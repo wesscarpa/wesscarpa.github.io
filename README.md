@@ -6,6 +6,8 @@ https://wesscarpa.github.io/index.html
 
 A fully custom-coded portfolio website built with HTML, CSS, and JavaScript to showcase projects, experience, and education. This project functions both as a professional portfolio and as an experimental front-end engineering platform focused on interactive design, animation, and creative programming.
 
+(Only built for use on a computer)
+
 ---
 
 ## Overview

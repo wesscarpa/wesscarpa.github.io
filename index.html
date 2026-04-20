@@ -23,7 +23,7 @@
   <!-- Slide-Out Navigation Menu -->
   <div id="side-nav">
     <ul>
-      <li><a href="#solar-system">Home</a></li>
+      <li><a href="#">Home</a></li>
       <li><a href="#projects">Projects</a></li>
       <li><a href="#skills">Skills</a></li>
       <li><a href="#contact">Contact</a></li>
@@ -89,22 +89,18 @@
     }
 
     function lockCrawl() {
+      if (crawlLocked) return;
 
-      console.log('Crawl locked');
-      scrollY = window.scrollY || window.pageYOffset;
-      console.log('Crawl locked at scrollY:', scrollY);
-      // document.body.classList.add('locked');
-      // crawl.classList.add('locked');
+      scrollY = window.scrollY; // store BEFORE fixing body
       crawlLocked = true;
 
-
       document.body.style.position = 'fixed';
-      document.body.style.top = `-${650}px`;
+      document.body.style.top = `-${scrollY}px`;
       document.body.style.left = '0';
       document.body.style.right = '0';
       document.body.style.overflow = 'hidden';
-
     }
+
 
     function unlockCrawl() {
       console.log('Crawl unlocked');
@@ -124,8 +120,8 @@
     }
 
     window.addEventListener('scroll', () => {
-      scrollY = window.scrollY || window.pageYOffset;
-      // console.log('Current scroll Y position:', scrollY);
+      scrollY = window.scrollY;
+      console.log('Current scroll Y position:', scrollY);
     });
 
     window.addEventListener('wheel', (e) => {
@@ -163,7 +159,7 @@
         updatePosition();
 
       } else {
-        scrollY = window.scrollY || window.pageYOffset;
+        scrollY = window.scrollY;
       }
 
 
@@ -241,9 +237,43 @@
           <!-- ========= Timeline Widget Addon For Elementor 1.6.8 ========= -->
           <div id="twae-wrapper-55c2fe1" class="twae-vertical twae-wrapper  twae-both-sided">
             <div class="twae-start"></div>
+
             <div id="twea-timeline-55c2fe1" class="twae-timeline">
+
+
               <!-- Start of Story Repeater Content -->
               <div id="story-dc2fcc3" class="twae-story twae-repeater-item twae-story-right twae-story-no-icon">
+                <!-- Story Label -->
+                <div class="twae-labels">
+                  <div class="twae-label-big">Aug 2025 - Present</div>
+                  <div class="twae-label-small">Los Angeles, CA</div>
+                </div>
+                <!-- Story Icon -->
+                <div class="twae-icon" style="background-color: #f0f0f0; border-radius: 50%; padding: 0px;">
+                  <img src="timeline/Occidental_College-02-removebg-preview.png" alt="" />
+                </div>
+                <!-- Story Arrow -->
+                <div class="twae-arrow"></div>
+                <!-- Start of Story Content -->
+                <div class="twae-content">
+                  <!-- Story Title -->
+                  <div class="twae-title">Occidental College - Physics Academic Mastery Program Tutor (AMP)</div>
+                  <!-- Story Image -->
+                  <a href="https://www.oxy.edu/academics/student-success/academic-mastery-program">
+                  <div class="twae-media large"><img loading="lazy" decoding="async" width="1024" height="577"
+                    src="timeline\physics_main_1440x800.jpg" class="attachment-large size-large" alt=""
+                    sizes="(max-width: 1024px) 100vw, 1024px">
+                  </div>
+                  </a>
+                  <!-- Story Description -->
+                  <div class="twae-description">
+                    <p>Tutored students in Intro to Mechanics and Modern Physics by creating worksheets, hosting weekly problem-solving sessions, and developing mock exams. Supported classroom learning and helped students strengthen conceptual understanding and exam preparation.</p>
+                  </div>
+                </div>
+              </div>
+
+
+              <div id="story-88d0ffc" class="twae-story twae-repeater-item twae-story-left twae-story-no-icon">
                 <!-- Story Label -->
                 <div class="twae-labels">
                   <div class="twae-label-big">May 2025 - Aug 2025</div>
@@ -260,18 +290,21 @@
                   <!-- Story Title -->
                   <div class="twae-title">LACI - Unlocking Innovation Intern</div>
                   <!-- Story Image -->
+                  <a href="https://laincubator.org/">
                   <div class="twae-media large"><img loading="lazy" decoding="async" width="1024" height="577"
-                      src="timeline/La-Kretz4360ppl_p.jpg" class="attachment-large size-large" alt=""
-                      sizes="(max-width: 1024px) 100vw, 1024px"></div>
+                    src="timeline/La-Kretz4360ppl_p.jpg" class="attachment-large size-large" alt=""
+                    sizes="(max-width: 1024px) 100vw, 1024px">
+                  </div>
+                  </a>
                   <!-- Story Description -->
                   <div class="twae-description">
-                    <p>-----INSERT DESCRIPTION-----</p>
+                    <p>Supported cleantech startup pilots through research, data analysis, and program evaluation. Contributed to impact reviews, streamlined tracking processes, and developed tools to improve pilot workflows and outreach strategies.</p>
                   </div>
                 </div>
               </div>
 
 
-              <div id="story-88d0ffc" class="twae-story twae-repeater-item twae-story-left twae-story-no-icon">
+              <div id="story-dc2fcc3" class="twae-story twae-repeater-item twae-story-right twae-story-no-icon">
                 <!-- Story Label -->
                 <div class="twae-labels">
                   <div class="twae-label-big">Aug 2025 - Current</div>
@@ -288,15 +321,21 @@
                   <!-- Story Title -->
                   <div class="twae-title">Occidental College - ITS Technician</div>
                   <!-- Story Image -->
+                  <a href="https://www.oxy.edu/offices-services/its">
                   <div class="twae-media large"><img loading="lazy" decoding="async" width="1024" height="576"
                       src="timeline/oxy_its_1440x800.jpg" class="attachment-large size-large" alt=""
-                      sizes="(max-width: 1024px) 100vw, 1024px"></div>
+                      sizes="(max-width: 1024px) 100vw, 1024px">
+                  </div>
+                  </a>
                   <!-- Story Description -->
                   <div class="twae-description">
-                    <p>-----INSERT DESCRIPTION-----</p>
+                    <p>Provided technical support for students, faculty, and staff, including troubleshooting hardware/software issues, maintaining campus technology, and assisting with classroom and event IT needs.</p>
                   </div>
                 </div>
               </div>
+
+
+
             </div>
             <div class="twae-end"></div>
           </div>

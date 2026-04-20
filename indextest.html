@@ -1,208 +1,252 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Star Wars Crawl with Scroll Control</title>
-<style>
-    @import url('https://fonts.googleapis.com/css2?family=News+Cycle:wght@700&display=swap');
-
-    body {
-      margin: 0;
-      height: 100vh;
-    }
-
-
-    body.locked {
-      overflow: hidden;
-    }
-
-    #crawl {
-      background: black;
-      color: #feda4a; /* classic Star Wars yellow */
-      font-family: 'News Gothic Bold', sans-serif;
-      overflow-x: hidden;
-      height: 100vh;
-      position: relative;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    #crawl.locked {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      z-index: 10;
-      background-color: black
-    }
-
-    #titles {
-        position: absolute;
-        width: 18em;
-        height: 50em;
-        bottom: 0;
-        left: 50%;
-        margin-left: -9em;
-        font-size: 400%;
-        font-weight: 700;
-        text-align: justify;
+  <head>
+    <meta charset="UTF-8" />
+    <title>Solar System with Models</title>
+    <style>
+      body {
+        margin: 0;
         overflow: hidden;
-        transform-origin: 50% 100%;
-        transform: perspective(300px) rotateX(25deg);
-        transition: transform 0.1s ease-out;
-    }
+      }
+      canvas {
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="solar-system"></div>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.155.0/build/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.155.0/examples/js/loaders/GLTFLoader.js"></script>
+    <script>
+      // --- Scene, Camera, Renderer ---
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(
+        70,
+        window.innerWidth / window.innerHeight,
+        0.1,
+        2000
+      );
+      camera.position.set(0, 50, 150);
+      camera.lookAt(0, 0, 0);
 
-    #titles::after {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 60%;
-        pointer-events: none;
-        background: linear-gradient(to bottom, rgba(0,0,0,1) 0%, transparent 100%);
-    }
+      const renderer = new THREE.WebGLRenderer({ antialias: true });
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      document.getElementById("solar-system").appendChild(renderer.domElement);
 
-    #titlecontent {
-        position: absolute;
-        width: 100%;
-        top: 100%;
-        white-space: pre-line; /* preserve line breaks */
-    }
+      // --- Light ---
+      const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+      scene.add(ambientLight);
 
-    #titlecontent h1 {
-        margin: 0;
-        text-align: center;
-        font-size: 1em;
-    }
+      const sunLight = new THREE.PointLight(0xffffff, 3, 1000);
+      sunLight.position.set(0, 0, 0);
+      scene.add(sunLight);
 
-    #titlecontent h2 {
-        margin: 0;
-        text-align: center;
-    }
+      // --- Planet Data ---
+      const planetData = [
+        {
+          name: "Mercury",
+          a: 0.387,
+          e: 0.205,
+          theta: 5.838312,
+          inclination: 7.01,
+          model_path: "models/mercury/scene.gltf",
+          size: 0.5,
+          period: 0.24,
+        },
+        {
+          name: "Venus",
+          a: 0.723,
+          e: 0.007,
+          theta: 0.5000129,
+          inclination: 3.39,
+          model_path: "models/venus/scene.gltf",
+          size: 0.8,
+          period: 0.615,
+        },
+        {
+          name: "Earth",
+          a: 1,
+          e: 0.017,
+          theta: 0,
+          inclination: 0,
+          model_path: "models/earth/scene.gltf",
+          size: 1,
+          period: 1,
+        },
+        {
+          name: "Mars",
+          a: 1.524,
+          e: 0.093,
+          theta: 4.062033,
+          inclination: 1.85,
+          model_path: "models/mars/scene.gltf",
+          size: 0.6,
+          period: 1.88,
+        },
+        {
+          name: "Jupiter",
+          a: 5.203,
+          e: 0.049,
+          theta: 1.303286,
+          inclination: 1.31,
+          model_path: "models/jupiter/scene.gltf",
+          size: 2,
+          period: 11.86,
+        },
+        {
+          name: "Saturn",
+          a: 9.537,
+          e: 0.054,
+          theta: 6.102573,
+          inclination: 5.51,
+          model_path: "models/saturn/scene.gltf",
+          size: 1.8,
+          period: 29.46,
+        },
+        {
+          name: "Uranus",
+          a: 19.189,
+          e: 0.047,
+          theta: 1.186948,
+          inclination: 6.48,
+          model_path: "models/uranus/scene.gltf",
+          size: 1.5,
+          period: 84.01,
+        },
+        {
+          name: "Neptune",
+          a: 30.07,
+          e: 0.01,
+          theta: 5.271201,
+          inclination: 6.43,
+          model_path: "models/neptune/scene.gltf",
+          size: 1.5,
+          period: 164.8,
+        },
+      ];
 
-    p {
-        margin: 0 0;
-        line-height: 2;
-    }
-</style>
-</head>
+      const loader = new THREE.GLTFLoader();
+      const planets = [];
 
-<header>
-  <nav>
-    <h1>Wes Scarpa</h1>
-    <p>3-2 Physics & Engineering Student @ Occidental College</p>
-  </nav>
-</header>
-<body>
+      // --- Create orbits and load models ---
+      planetData.forEach((data) => {
+        // Draw orbit
+        const points = [];
+        const a = data.a;
+        const e = data.e;
+        const b = a * Math.sqrt(1 - e * e);
+        const c = a * e;
+        const resolution = 500;
+        for (let t = 0; t <= 2 * Math.PI; t += (2 * Math.PI) / resolution) {
+          let x = a * Math.cos(t) - c;
+          let z = b * Math.sin(t);
+          const xRot = x * Math.cos(data.theta) - z * Math.sin(data.theta);
+          const zRot = x * Math.sin(data.theta) + z * Math.cos(data.theta);
+          points.push(new THREE.Vector3(xRot, 0, zRot));
+        }
+        const geometry = new THREE.BufferGeometry().setFromPoints(points);
+        const material = new THREE.LineBasicMaterial({
+          color: 0xffffff,
+          opacity: 0.3,
+          transparent: true,
+        });
+        const orbit = new THREE.LineLoop(geometry, material);
+        orbit.rotation.z = THREE.MathUtils.degToRad(data.inclination);
+        scene.add(orbit);
 
-  <section id="crawl">
-    
-    <div id="titles">
-      <div id="titlecontent">
-        <!-- Content goes here -->
-        <h1>About</h1>
-        <h2>Welcome to My Portfolio</h2>
-          <p>
-            My name is Wes Scarpa and I am a 3-2 Physics & Engineering student at Occidental College with a passion for combining design and science to build things that matter.
-          </p>
-          <p>
-            Scroll down to explore my projects, simulations, and skills...
-          </p>
-    </div>
-  </section>
+        // Load planet model
+        loader.load(data.model_path, (gltf) => {
+          const planet = gltf.scene;
+          planet.scale.set(data.size, data.size, data.size);
 
+          // Group for rotation (to handle inclination)
+          const planetGroup = new THREE.Group();
+          planetGroup.add(planet);
+          planetGroup.rotation.z = THREE.MathUtils.degToRad(data.inclination);
+          scene.add(planetGroup);
 
-<section style="height: 100vh; background-color: #111;">
-  <h2>Projects</h2>
-  <p>Details about your projects...</p>
-</section>
+          planets.push({ data, mesh: planet, group: planetGroup });
+        });
+      });
 
-<section style="height: 100vh; background-color: #222;">
-  <h2>Contact</h2>
-  <p>Get in touch...</p>
-</section>
+      // --- Sun ---
+      const sunGeometry = new THREE.SphereGeometry(2, 32, 32);
+      const sunMaterial = new THREE.MeshBasicMaterial({ color: 0xffff00 });
+      const sun = new THREE.Mesh(sunGeometry, sunMaterial);
+      scene.add(sun);
 
-  
+      // --- Camera Controls ---
+      let radius = 150,
+        theta = Math.PI / 4,
+        phi = Math.PI / 4;
+      const minRadius = 50,
+        maxRadius = 500,
+        dragSpeed = 0.005;
+      let isDragging = false,
+        prevX = 0,
+        prevY = 0;
 
-<script>
-  const titles = document.getElementById('titles');
-  const titleContent = document.getElementById('titlecontent');
+      function updateCameraPosition() {
+        camera.position.x = radius * Math.sin(theta) * Math.cos(phi);
+        camera.position.y = radius * Math.cos(theta);
+        camera.position.z = radius * Math.sin(theta) * Math.sin(phi);
+        camera.lookAt(0, 0, 0);
+      }
 
-  let perspective = 300;  // initial perspective px
-  let positionPercent = 100; // initial top position (%)
-  let crawlLocked = false;
-  const minPerspective = 100;
-  const maxPerspective = 800;
-  const minTop = -170; // how far text scrolls up (in %)
-  const maxTop = 100; // start below container
+      window.addEventListener("mousedown", (e) => {
+        isDragging = true;
+        prevX = e.clientX;
+        prevY = e.clientY;
+      });
+      window.addEventListener("mousemove", (e) => {
+        if (!isDragging) return;
+        phi -= (e.clientX - prevX) * dragSpeed;
+        theta -= (e.clientY - prevY) * dragSpeed;
+        theta = Math.max(0.1, Math.min(Math.PI - 0.1, theta));
+        updateCameraPosition();
+        prevX = e.clientX;
+        prevY = e.clientY;
+      });
+      window.addEventListener("mouseup", () => {
+        isDragging = false;
+      });
+      window.addEventListener("wheel", (e) => {
+        radius += e.deltaY * 0.1;
+        radius = Math.max(minRadius, Math.min(maxRadius, radius));
+        updateCameraPosition();
+      });
+      updateCameraPosition();
 
-  function isCentered(elem) {
-    const rect = elem.getBoundingClientRect();
-    const screenCenter = window.innerHeight / 2;
-    const elementCenter = rect.top + rect.height / 2;
-    return Math.abs(elementCenter - screenCenter) < 20;// 10px tolerance for centering
-  }
+      // --- Animate Planets ---
+      const earthYearInSeconds = 60; // Earth orbital period = 60s for visualization
+      const startTime = Date.now();
 
-  function lockCrawl() {
-    console.log('Crawl locked');
-    document.body.classList.add('locked');
-    crawl.classList.add('locked');
-    crawlLocked = true;
-  }
+      function animate() {
+        requestAnimationFrame(animate);
+        const elapsed = (Date.now() - startTime) / 1000;
 
-  function unlockCrawl() {
-    document.body.classList.remove('locked');
-    crawl.classList.remove('locked');
-    crawlLocked = false;
-  }
+        planets.forEach((p) => {
+          const t = (elapsed / p.data.period) * 2 * Math.PI; // orbital angle
+          const a = p.data.a;
+          const e = p.data.e;
+          const b = a * Math.sqrt(1 - e * e);
+          const c = a * e;
+          let x = a * Math.cos(t) - c;
+          let z = b * Math.sin(t);
+          const xRot = x * Math.cos(p.data.theta) - z * Math.sin(p.data.theta);
+          const zRot = x * Math.sin(p.data.theta) + z * Math.cos(p.data.theta);
+          p.mesh.position.set(xRot, 0, zRot);
+        });
 
-  function updatePosition() {
-    titleContent.style.top = `${positionPercent}%`;
-  }
+        renderer.render(scene, camera);
+      }
+      animate();
 
-  window.addEventListener('wheel', e => {
-    console.log('positionPercent:', positionPercent.toFixed(2));
-    console.log('e.deltaY:', e.deltaY.toFixed(2));
-    console.log('crawlLocked:', crawlLocked);
-    console.log('isCentered:', isCentered(titleContent));
-    //locks the crawl when centered
-    if((positionPercent <= -60 && e.deltaY > 0)||( positionPercent >= 100 && e.deltaY < 0)) {
-      unlockCrawl();
-    }else if(positionPercent <= -60 && e.deltaY < 0 && !crawlLocked && isCentered(crawl)){ //prevent scrolling up when text is at the top
-      lockCrawl();
-      e.preventDefault();
-    }else if(positionPercent <=100 && e.deltaY > 0 && !crawlLocked && isCentered(crawl)){ //prevent scrolling down when text is at the bottom
-      lockCrawl();
-      e.preventDefault();
-    }
-    
-    if(crawlLocked) {
-      e.preventDefault();
-
-    
-
-      positionPercent -= e.deltaY * 0.01;
-      positionPercent = Math.min(maxTop, Math.max(minTop, positionPercent));
-
-      updatePosition();
-      
-    } 
-    
-    
-  }, { passive: false });
-
-  // Initialize
-  updatePosition();
-</script>
-
-</body>
-<footer>
-  <p>© 2023 Wes Scarpa</p>  
-</footer>
-
-
+      window.addEventListener("resize", () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+      });
+    </script>
+  </body>
 </html>

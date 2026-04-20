@@ -11,7 +11,7 @@ const camera = new THREE.PerspectiveCamera(
   70,
   window.innerWidth / window.innerHeight,
   0.1,
-  1000
+  1000,
 );
 const earthAngularSpeed = (2 * Math.PI) / earthYearInSeconds; // 60 seconds for 360° (2π radians)
 const renderer = new THREE.WebGLRenderer();
@@ -278,16 +278,31 @@ function calucluateRotationalSpeed(angularDivisor) {
   const earthsRotationalSpeed = earthAngularSpeed * 365.25;
   return earthsRotationalSpeed * angularDivisor * timeScaleFactor;
 }
+let running = false;
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach((entry) => {
+    running = entry.isIntersecting;
+
+    if (running) animate();
+  });
+});
+
+observer.observe(document.querySelector("#solar-system"));
 
 // Create orbiting motion for the planets (elliptical orbits)
 function animate() {
+  if (!running) return;
+
   requestAnimationFrame(animate);
 
   planets.forEach((planetData) => {
     const planet = planetData.planet;
     const angularSpeed = calculateAngularSpeed(planetData.orbitalPeriod);
     const roationalSpeed = calucluateRotationalSpeed(planetData.angularDivisor);
+
     const internalAngle = Date.now() * roationalSpeed;
+
     const angle = Date.now() * angularSpeed;
 
     // Elliptical orbit
@@ -345,16 +360,27 @@ let previousMouseX = 0;
 let previousMouseY = 0;
 const dragSpeed = 0.005; // Adjust sensitivity
 
+function isFullyInViewport(element) {
+  const rect = element.getBoundingClientRect();
+  return (
+    rect.top >= 0 &&
+    rect.left >= 0 &&
+    rect.bottom <= window.innerHeight &&
+    rect.right <= window.innerWidth
+  );
+}
+
 // Mouse wheel controls for zooming in and out
 window.addEventListener(
   "wheel",
   (event) => {
     event.preventDefault();
 
-    const atTop = window.scrollY === 0;
     const scrollSpeed = 0.5; // Adjust this value to slow down scrolling
     const transitionSpeed = 3; // Smooth transition factor
 
+    const atTop = window.scrollY === 0;
+    console.log("At top:", atTop);
     if (atTop) {
       // Only allow zooming if at the top
       allowRotate = true;
@@ -391,7 +417,7 @@ window.addEventListener(
       allowRotate = false;
     }
   },
-  { passive: false }
+  { passive: false },
 );
 
 // Mouse down event: Start dragging

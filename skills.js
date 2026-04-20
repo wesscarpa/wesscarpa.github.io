@@ -23,8 +23,8 @@ const render = Render.create({
     width,
     height,
     wireframes: false,
-    background: "transparent"
-  }
+    background: "transparent",
+  },
 });
 
 Render.run(render);
@@ -54,19 +54,46 @@ Runner.run(Runner.create(), engine);
 // ];
 
 const skills = [
-  "JavaScript", "Python", "HTML", "CSS", "PCB Design",
-  "C++", "Java", "MATLAB", "Arduino", "Git", "SolidWorks", 
-  "Computer Simulations", "GD&T", "Machining", "3D Printing",
-    "Electronics", "Data Analysis", "Physics"
+  "JavaScript",
+  "Python",
+  "HTML",
+  "CSS",
+  "PCB Design",
+  "C++",
+  "Java",
+  "MATLAB",
+  "Arduino",
+  "Git",
+  "SolidWorks",
+  "Computer Simulations",
+  "GD&T",
+  "Machining",
+  "3D Printing",
+  "Electronics",
+  "Data Analysis",
+  "Physics",
+  "R",
+  "Machine Learning",
+  "Fluid Dynamics",
+  "Thermodynamics",
+  "Control Systems",
+  "Signal Processing",
+  "Embedded Systems",
+  "Mathematica",
+  "CFD",
+  "MatLab",
+  "Robotics",
+  "LINUX",
+  "Microprocessers",
 ];
 
 function getRandomColor() {
-    const hue = Math.floor(Math.random() * 360);  // Random hue (0 to 360 degrees)
-    const saturation = 100; // Full saturation for bright colors
-    const lightness = Math.floor(Math.random() * 30) + 50; // Lightness between 50% and 80%
-  
-    return `hsl(${hue}, ${saturation}%, ${lightness}%)`;  // Random bright color
-  }
+  const hue = Math.floor(Math.random() * 360); // Random hue (0 to 360 degrees)
+  const saturation = 100; // Full saturation for bright colors
+  const lightness = Math.floor(Math.random() * 30) + 50; // Lightness between 50% and 80%
+
+  return `hsl(${hue}, ${saturation}%, ${lightness}%)`; // Random bright color
+}
 
 // Create balls with skill labels
 const balls = skills.map((skill) => {
@@ -82,9 +109,9 @@ const balls = skills.map((skill) => {
       render: {
         fillStyle: getRandomColor(),
         strokeStyle: "#000",
-        lineWidth: 1
-      }
-    }
+        lineWidth: 1,
+      },
+    },
   );
 
   // Add scale properties
@@ -97,30 +124,46 @@ Composite.add(engine.world, balls);
 
 // Draw skill text manually with newlines at each space
 Events.on(render, "afterRender", () => {
-    const ctx = render.context;
-    ctx.font = "bold 20px Times, sans-serif";
-    ctx.fillStyle = "black";
-    ctx.textAlign = "center";
-    ctx.textBaseline = "middle";
-  
-    balls.forEach(ball => {
-      const words = ball.label.split(" "); // Split the label by spaces
-      const lineHeight = 25; // Adjust line height for better spacing between words
-  
-      // Draw each word on a new line
-      words.forEach((word, index) => {
-        ctx.fillText(word, ball.position.x, ball.position.y + (index * lineHeight));
-      });
+  const ctx = render.context;
+  ctx.font = "bold 20px Times, sans-serif";
+  ctx.fillStyle = "black";
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+
+  balls.forEach((ball) => {
+    const words = ball.label.split(" "); // Split the label by spaces
+    const lineHeight = 25; // Adjust line height for better spacing between words
+
+    // Draw each word on a new line
+    words.forEach((word, index) => {
+      ctx.fillText(word, ball.position.x, ball.position.y + index * lineHeight);
     });
   });
+});
 
 // Add boundary walls
 const wallThickness = 200;
 Composite.add(engine.world, [
-  Bodies.rectangle(width / 2, -wallThickness / 2, width, wallThickness, { isStatic: true }),
-  Bodies.rectangle(width / 2, height + wallThickness / 2, width, wallThickness, { isStatic: true }),
-  Bodies.rectangle(-wallThickness / 2, height / 2, wallThickness, height, { isStatic: true }),
-  Bodies.rectangle(width + wallThickness / 2, height / 2, wallThickness, height, { isStatic: true })
+  Bodies.rectangle(width / 2, -wallThickness / 2, width, wallThickness, {
+    isStatic: true,
+  }),
+  Bodies.rectangle(
+    width / 2,
+    height + wallThickness / 2,
+    width,
+    wallThickness,
+    { isStatic: true },
+  ),
+  Bodies.rectangle(-wallThickness / 2, height / 2, wallThickness, height, {
+    isStatic: true,
+  }),
+  Bodies.rectangle(
+    width + wallThickness / 2,
+    height / 2,
+    wallThickness,
+    height,
+    { isStatic: true },
+  ),
 ]);
 
 // Gravity center
@@ -130,19 +173,19 @@ const gravityStrength = 0.007;
 
 Events.on(engine, "beforeUpdate", () => {
   // Apply gravity toward center
-  balls.forEach(ball => {
+  balls.forEach((ball) => {
     const dx = centerX - ball.position.x;
     const dy = centerY - ball.position.y;
     const distance = Math.max(1, Math.sqrt(dx * dx + dy * dy));
     const force = {
       x: (dx / distance) * gravityStrength,
-      y: (dy / distance) * gravityStrength
+      y: (dy / distance) * gravityStrength,
     };
     Body.applyForce(ball, ball.position, force);
   });
 
   // Smoothly animate scale
-  balls.forEach(ball => {
+  balls.forEach((ball) => {
     const scaleSpeed = 0.1;
     const current = ball.currentScale;
     const target = ball.targetScale;
@@ -158,56 +201,81 @@ Events.on(engine, "beforeUpdate", () => {
 
 // Hover detection to trigger scale animation
 document.addEventListener("mousemove", (event) => {
-    const rect = canvas.getBoundingClientRect(); // Get canvas bounds
-    const scaleX = canvas.width / rect.width;
-    const scaleY = canvas.height / rect.height;
+  const rect = canvas.getBoundingClientRect(); // Get canvas bounds
+  const scaleX = canvas.width / rect.width;
+  const scaleY = canvas.height / rect.height;
 
-    // Translate mouse position to canvas coordinates
-    const mouseX = (event.clientX - rect.left) * scaleX;
-    const mouseY = (event.clientY - rect.top) * scaleY;
+  // Translate mouse position to canvas coordinates
+  const mouseX = (event.clientX - rect.left) * scaleX;
+  const mouseY = (event.clientY - rect.top) * scaleY;
 
-    let hoveredBall = null;
+  let hoveredBall = null;
 
-    balls.forEach(ball => {
-        const dx = ball.position.x - mouseX;
-        const dy = ball.position.y - mouseY;
-        const dist = Math.sqrt(dx * dx + dy * dy);
+  balls.forEach((ball) => {
+    const dx = ball.position.x - mouseX;
+    const dy = ball.position.y - mouseY;
+    const dist = Math.sqrt(dx * dx + dy * dy);
 
-        if (dist < 60 * ball.currentScale) {
-            hoveredBall = ball;
-        }
-    });
+    if (dist < 60 * ball.currentScale) {
+      hoveredBall = ball;
+    }
+  });
 
-  balls.forEach(ball => {
-    ball.targetScale = (ball === hoveredBall) ? 1.5 : 1;
-});
+  balls.forEach((ball) => {
+    ball.targetScale = ball === hoveredBall ? 1.5 : 1;
+  });
 
-window.addEventListener("resize", () => {
+  window.addEventListener("resize", () => {
     const newWidth = container.clientWidth;
     const newHeight = container.clientHeight;
-  
+
     canvas.width = newWidth;
     canvas.height = newHeight;
-  
+
     render.canvas.width = newWidth;
     render.canvas.height = newHeight;
     render.options.width = newWidth;
     render.options.height = newHeight;
-  
+
     // Recalculate center of gravity
     centerX = newWidth / 2;
     centerY = newHeight / 2;
-  
+
     // Reposition the walls
-    Composite.remove(engine.world, engine.world.bodies.filter(body => body.isStatic));
+    Composite.remove(
+      engine.world,
+      engine.world.bodies.filter((body) => body.isStatic),
+    );
     const wallThickness = 200;
     Composite.add(engine.world, [
-      Bodies.rectangle(newWidth / 2, -wallThickness / 2, newWidth, wallThickness, { isStatic: true }),
-      Bodies.rectangle(newWidth / 2, newHeight + wallThickness / 2, newWidth, wallThickness, { isStatic: true }),
-      Bodies.rectangle(-wallThickness / 2, newHeight / 2, wallThickness, newHeight, { isStatic: true }),
-      Bodies.rectangle(newWidth + wallThickness / 2, newHeight / 2, wallThickness, newHeight, { isStatic: true })
+      Bodies.rectangle(
+        newWidth / 2,
+        -wallThickness / 2,
+        newWidth,
+        wallThickness,
+        { isStatic: true },
+      ),
+      Bodies.rectangle(
+        newWidth / 2,
+        newHeight + wallThickness / 2,
+        newWidth,
+        wallThickness,
+        { isStatic: true },
+      ),
+      Bodies.rectangle(
+        -wallThickness / 2,
+        newHeight / 2,
+        wallThickness,
+        newHeight,
+        { isStatic: true },
+      ),
+      Bodies.rectangle(
+        newWidth + wallThickness / 2,
+        newHeight / 2,
+        wallThickness,
+        newHeight,
+        { isStatic: true },
+      ),
     ]);
   });
-  
-
 });

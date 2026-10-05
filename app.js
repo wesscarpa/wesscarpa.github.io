@@ -211,9 +211,10 @@ planetData.forEach((data) => {
 
     for (let t = 0; t < 2 * Math.PI; t += (2 * Math.PI) / orbitResolution) {
       const a = data.distance;
-      const b = a * (1 - data.eccentricity);
+      const e = data.eccentricity;
+      const b = a * Math.sqrt(1 - e * e);
 
-      const x = a * Math.cos(t);
+      const x = a * (Math.cos(t) - e);
       const z = b * Math.sin(t);
 
       orbitPoints.push(new THREE.Vector3(x, 0, z));
@@ -280,6 +281,16 @@ function calucluateRotationalSpeed(angularDivisor) {
 }
 let running = false;
 
+// Solve Kepler's equation M = E - e*sin(E) for the eccentric anomaly E
+function solveKepler(M, e) {
+  M = M % (2 * Math.PI);
+  let E = M;
+  for (let i = 0; i < 8; i++) {
+    E -= (E - e * Math.sin(E) - M) / (1 - e * Math.cos(E));
+  }
+  return E;
+}
+
 const observer = new IntersectionObserver((entries) => {
   entries.forEach((entry) => {
     running = entry.isIntersecting;
@@ -306,11 +317,13 @@ function animate() {
     const angle = Date.now() * angularSpeed;
 
     // Elliptical orbit
+    const e = planetData.eccentricity;
     const a = planetData.distance;
-    const b = a * (1 - planetData.eccentricity);
+    const b = a * Math.sqrt(1 - e * e); // true semi-minor axis
 
-    const x = a * Math.cos(angle);
-    const z = b * Math.sin(angle);
+    const E = solveKepler(angle, e); // `angle` is now the mean anomaly
+    const x = a * (Math.cos(E) - e); // Sun sits at the focus (origin)
+    const z = b * Math.sin(E);
     planetData.planet.position.set(x, 0, z);
 
     //axis rotation

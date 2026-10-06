@@ -28,6 +28,7 @@
   <div id="side-nav">
     <ul>
       <li><a href="#">Home</a></li>
+      <li><a href="#crawl">About Me</a></li>
       <li><a href="#projects">Projects</a></li>
       <li><a href="#timeline">My Journey</a></li>
       <li><a href="#skills">Skills</a></li>
@@ -43,9 +44,7 @@
       <p>Electrical Engineering Student @ Columbia University and Physics Student @ Occidental College</p>
 
       <ul>
-        <li><a href="#projects">Projects</a></li>
-        <li><a href="#skills">Skills</a></li>
-        <li><a href="#contact">Contact</a></li>
+        Scroll Down to Explore My Portfolio
       </ul>
     </nav>
   </header>
@@ -56,125 +55,57 @@
 
 
   <section id="crawl">
-
-    <div id="titles">
-      <div id="titlecontent">
-        <!-- Content goes here -->
-        <h1>About Me</h1>
-        <h2>Welcome to My Portfolio</h2>
-        <p>
-          My name is Wes Scarpa and I am an Electrical Engineering Student at Columbia University and Physics Student at Occidental College. 
-          I love design and use engineering as a creative tool to improve mine and other people's lives. Studying at both a Liberal Arts College and an Engineering University has influenced me to approach enginnering from an impact-focused perspective. 
-          I am specifically interested in embedded systems, controls, simulation, and robotics. 
-          My physics background means I think about things from first principles and build from the ground up. 
-          This portfolio is mostly for fun and also to showcase my projects, skills, and experiences in the fields of engineering, physics, and computer science.  
-        </p>
-        <p>
-          Scroll down to explore my projects, simulations, and skills...
-        </p>
+    <div id="stage">
+      <div id="plane">
+        <div id="titlecontent">
+          <h1>About Me</h1>
+          <h2>Welcome to My Portfolio</h2>
+          <p>
+            My name is Wes Scarpa and I am an Electrical Engineering Student at Columbia University and Physics Student
+            at Occidental College. I love design and use engineering as a creative tool to improve mine and other
+            people's lives. Studying at both a Liberal Arts College and an Engineering University has influenced me to
+            approach engineering from an impact-focused perspective. I am specifically interested in embedded systems,
+            controls, simulation, and robotics. My physics background means I think about things from first principles
+            and build from the ground up. This portfolio is mostly for fun and also to showcase my projects, skills, and
+            experiences in the fields of engineering, physics, and computer science.
+          </p>
+          <p>Scroll down to explore my projects, simulations, and skills...</p>
+        </div>
       </div>
+    </div>
   </section>
 
 
   <script>
-    const titles = document.getElementById('titles');
-    const titleContent = document.getElementById('titlecontent');
-
-    let perspective = 300;  // initial perspective px
-    let positionPercent = 100; // initial top position (%)
-    let crawlLocked = false;
-    let scrollY = window.scrollY;
-    const minPerspective = 100;
-    const maxPerspective = 800;
-    const minTop = -170; // how far text scrolls up (in %)
-    const maxTop = 100; // start below container
-
-    function isCentered(elem) {
-      const rect = elem.getBoundingClientRect();
-      const screenCenter = window.innerHeight / 2;
-      const elementCenter = rect.top + rect.height / 2;
-      return Math.abs(elementCenter - screenCenter) < 20;// 10px tolerance for centering
-    }
-
-    function lockCrawl() {
-      if (crawlLocked) return;
-
-      scrollY = window.scrollY; // store BEFORE fixing body
-      crawlLocked = true;
-
-      document.body.style.position = 'fixed';
-      document.body.style.top = `-${scrollY}px`;
-      document.body.style.left = '0';
-      document.body.style.right = '0';
-      document.body.style.overflow = 'hidden';
-    }
-
-
-    function unlockCrawl() {
-      console.log('Crawl unlocked');
-      // document.body.classList.remove('locked');
-      // crawl.classList.remove('locked');
-      crawlLocked = false;
-      document.body.style.position = '';
-      document.body.style.top = '';
-      document.body.style.overflow = '';
-      window.scrollTo(0, 650);
-
-
-    }
-
-    function updatePosition() {
-      titleContent.style.top = `${positionPercent}%`;
-    }
-
-    window.addEventListener('scroll', () => {
-      scrollY = window.scrollY;
-      console.log('Current scroll Y position:', scrollY);
-    });
-
-    window.addEventListener('wheel', (e) => {
-      while (crawlLocked) {
-        e.preventDefault(); // Prevent scrolling when locked
-        return;
-      }
-    }, { passive: false });
-
-
-    // Attach wheel event to the #crawl element instead of window
     const crawl = document.getElementById('crawl');
-    crawl.addEventListener('wheel', (e) => {
-      // console.log('positionPercent:', positionPercent.toFixed(2));
-      // console.log('e.deltaY:', e.deltaY.toFixed(2));
-      // console.log('crawlLocked:', crawlLocked);
-      // console.log('isCentered:', isCentered(titleContent));
-      //locks the crawl when centered
-      if ((positionPercent <= -60 && e.deltaY > 0) && crawlLocked || (positionPercent >= 100 && e.deltaY < 0) && crawlLocked) {
-        unlockCrawl();
-
-      } else if (positionPercent <= -60 && e.deltaY < 0 && !crawlLocked && isCentered(crawl)) { //prevent scrolling up when text is at the top
-        lockCrawl();
-
-      } else if (positionPercent <= 100 && e.deltaY > 0 && !crawlLocked && isCentered(crawl)) { //prevent scrolling down when text is at the bottom
-        lockCrawl();
-
-      }
-
-      if (crawlLocked) {
-        // e.preventDefault(); // Prevent scrolling when locked    
-        // window.scrollTo(0, 650);//Maintain current scroll position
-        positionPercent -= e.deltaY * 0.02; // Adjust scroll speed
-        positionPercent = Math.min(maxTop, Math.max(minTop, positionPercent));
-        updatePosition();
-
-      } else {
-        scrollY = window.scrollY;
-      }
-
-
-    }, { passive: false });
-
-    // Initialize
-    updatePosition();
+    const plane = document.getElementById('plane');
+    const text  = document.getElementById('titlecontent');
+    let ticking = false;
+  
+    function renderCrawl() {
+      ticking = false;
+  
+      const rect = crawl.getBoundingClientRect();
+      const scrollable = crawl.offsetHeight - window.innerHeight;
+      // 0 when the stage starts pinning, 1 when it releases. Pure function of scroll position.
+      const progress = Math.min(1, Math.max(0, -rect.top / scrollable));
+  
+      // Distance along the plane: text starts just below the plane's bottom edge,
+      // ends once its last line has passed the plane's far end.
+      const startY = plane.offsetHeight;
+      const endY   = -text.offsetHeight;
+      const y = startY + (endY - startY) * progress;
+  
+      text.style.transform = `translateY(${y}px)`;
+    }
+  
+    function onScroll() {
+      if (!ticking) { ticking = true; requestAnimationFrame(renderCrawl); }
+    }
+  
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    renderCrawl();
   </script>
 
   <div id="content">
@@ -265,118 +196,121 @@
     <!--Borrowed from https://thanhvtran.com -->
     <section id="timeline">
 
-    <h2>My Journey</h2>
-      <div class="elementor-element elementor-element-55c2fe1 elementor-widget elementor-widget-timeline-widget-addon"
-        data-id="55c2fe1" data-element_type="widget" data-widget_type="timeline-widget-addon.default">
-        <div class="elementor-widget-container">
-          <!-- ========= Timeline Widget Addon For Elementor 1.6.8 ========= -->
-          <div id="twae-wrapper-55c2fe1" class="twae-vertical twae-wrapper  twae-both-sided">
-            <div class="twae-start"></div>
+      <h2>My Journey</h2>
+        <div class="elementor-element elementor-element-55c2fe1 elementor-widget elementor-widget-timeline-widget-addon"
+          data-id="55c2fe1" data-element_type="widget" data-widget_type="timeline-widget-addon.default">
+          <div class="elementor-widget-container">
+            <!-- ========= Timeline Widget Addon For Elementor 1.6.8 ========= -->
+            <div id="twae-wrapper-55c2fe1" class="twae-vertical twae-wrapper  twae-both-sided">
+              <div class="twae-start"></div>
 
-            <div id="twea-timeline-55c2fe1" class="twae-timeline">
+              <div id="twea-timeline-55c2fe1" class="twae-timeline">
 
 
-              <!-- Start of Story Repeater Content -->
-              <div id="story-dc2fcc3" class="twae-story twae-repeater-item twae-story-right twae-story-no-icon">
-                <!-- Story Label -->
-                <div class="twae-labels">
-                  <div class="twae-label-big">Aug 2025 - Present</div>
-                  <div class="twae-label-small">Los Angeles, CA</div>
-                </div>
-                <!-- Story Icon -->
-                <div class="twae-icon" style="background-color: #f0f0f0; border-radius: 50%; padding: 0px;">
-                  <img src="timeline/Occidental_College-02-removebg-preview.png" alt="" />
-                </div>
-                <!-- Story Arrow -->
-                <div class="twae-arrow"></div>
-                <!-- Start of Story Content -->
-                <div class="twae-content">
-                  <!-- Story Title -->
-                  <div class="twae-title">Occidental College - Physics Academic Mastery Program Tutor (AMP)</div>
-                  <!-- Story Image -->
-                  <a href="https://www.oxy.edu/academics/student-success/academic-mastery-program">
-                  <div class="twae-media large"><img loading="lazy" decoding="async" width="1024" height="577"
-                    src="timeline\physics_main_1440x800.jpg" class="attachment-large size-large" alt=""
-                    sizes="(max-width: 1024px) 100vw, 1024px">
+                <!-- Start of Story Repeater Content -->
+                <div id="story-dc2fcc3" class="twae-story twae-repeater-item twae-story-right twae-story-no-icon">
+                  <!-- Story Label -->
+                  <div class="twae-labels">
+                    <div class="twae-label-big">Aug 2025 - Present</div>
+                    <div class="twae-label-small">Los Angeles, CA</div>
                   </div>
-                  </a>
-                  <!-- Story Description -->
-                  <div class="twae-description">
-                    <p>Tutored students in Intro to Mechanics and Modern Physics by creating worksheets, hosting weekly problem-solving sessions, and developing mock exams. Supported classroom learning and helped students strengthen conceptual understanding and exam preparation.</p>
+                  <!-- Story Icon -->
+                  <div class="twae-icon" style="background-color: #f0f0f0; border-radius: 50%; padding: 0px;">
+                    <img src="timeline/Occidental_College-02-removebg-preview.png" alt="" />
                   </div>
-                </div>
-              </div>
-
-
-              <div id="story-88d0ffc" class="twae-story twae-repeater-item twae-story-left twae-story-no-icon">
-                <!-- Story Label -->
-                <div class="twae-labels">
-                  <div class="twae-label-big">May 2025 - Aug 2025</div>
-                  <div class="twae-label-small">Los Angeles, CA</div>
-                </div>
-                <!-- Story Icon -->
-                <div class="twae-icon" style="background-color: #f0f0f0; border-radius: 50%; padding: 0px;">
-                  <img src="timeline/laincubator_logo-removebg-preview.png" alt="" />
-                </div>
-                <!-- Story Arrow -->
-                <div class="twae-arrow"></div>
-                <!-- Start of Story Content -->
-                <div class="twae-content">
-                  <!-- Story Title -->
-                  <div class="twae-title">LACI - Unlocking Innovation Intern</div>
-                  <!-- Story Image -->
-                  <a href="https://laincubator.org/">
-                  <div class="twae-media large"><img loading="lazy" decoding="async" width="1024" height="577"
-                    src="timeline/La-Kretz4360ppl_p.jpg" class="attachment-large size-large" alt=""
-                    sizes="(max-width: 1024px) 100vw, 1024px">
-                  </div>
-                  </a>
-                  <!-- Story Description -->
-                  <div class="twae-description">
-                    <p>Supported cleantech startup pilots through research, data analysis, and program evaluation. Contributed to impact reviews, streamlined tracking processes, and developed tools to improve pilot workflows and outreach strategies.</p>
-                  </div>
-                </div>
-              </div>
-
-
-              <div id="story-dc2fcc3" class="twae-story twae-repeater-item twae-story-right twae-story-no-icon">
-                <!-- Story Label -->
-                <div class="twae-labels">
-                  <div class="twae-label-big">Aug 2025 - Current</div>
-                  <div class="twae-label-small">Los Angeles, CA</div>
-                </div>
-                <!-- Story Icon -->
-                <div class="twae-icon" style="background-color: #f0f0f0; border-radius: 50%; padding: 0px;">
-                  <img src="timeline/Occidental_College-02-removebg-preview.png" alt="" />
-                </div>
-                <!-- Story Arrow -->
-                <div class="twae-arrow"></div>
-                <!-- Start of Story Content -->
-                <div class="twae-content">
-                  <!-- Story Title -->
-                  <div class="twae-title">Occidental College - ITS Technician</div>
-                  <!-- Story Image -->
-                  <a href="https://www.oxy.edu/offices-services/its">
-                  <div class="twae-media large"><img loading="lazy" decoding="async" width="1024" height="576"
-                      src="timeline/oxy_its_1440x800.jpg" class="attachment-large size-large" alt=""
+                  <!-- Story Arrow -->
+                  <div class="twae-arrow"></div>
+                  <!-- Start of Story Content -->
+                  <div class="twae-content">
+                    <!-- Story Title -->
+                    <div class="twae-title">Occidental College - Physics Academic Mastery Program Tutor (AMP)</div>
+                    <!-- Story Image -->
+                    <a href="https://www.oxy.edu/academics/student-success/academic-mastery-program">
+                    <div class="twae-media large"><img loading="lazy" decoding="async" width="1024" height="577"
+                      src="timeline\physics_main_1440x800.jpg" class="attachment-large size-large" alt=""
                       sizes="(max-width: 1024px) 100vw, 1024px">
-                  </div>
-                  </a>
-                  <!-- Story Description -->
-                  <div class="twae-description">
-                    <p>Provided technical support for students, faculty, and staff, including troubleshooting hardware/software issues, maintaining campus technology, and assisting with classroom and event IT needs.</p>
+                    </div>
+                    </a>
+                    <!-- Story Description -->
+                    <div class="twae-description">
+                      <p>Tutored students in Intro to Mechanics and Modern Physics by creating worksheets, hosting weekly problem-solving sessions, and developing mock exams. Supported classroom learning and helped students strengthen conceptual understanding and exam preparation.</p>
+                    </div>
                   </div>
                 </div>
+
+
+                <div id="story-88d0ffc" class="twae-story twae-repeater-item twae-story-left twae-story-no-icon">
+                  <!-- Story Label -->
+                  <div class="twae-labels">
+                    <div class="twae-label-big">May 2025 - Aug 2025</div>
+                    <div class="twae-label-small">Los Angeles, CA</div>
+                  </div>
+                  <!-- Story Icon -->
+                  <div class="twae-icon" style="background-color: #f0f0f0; border-radius: 50%; padding: 0px;">
+                    <img src="timeline/laincubator_logo-removebg-preview.png" alt="" />
+                  </div>
+                  <!-- Story Arrow -->
+                  <div class="twae-arrow"></div>
+                  <!-- Start of Story Content -->
+                  <div class="twae-content">
+                    <!-- Story Title -->
+                    <div class="twae-title">LACI - Unlocking Innovation Intern</div>
+                    <!-- Story Image -->
+                    <a href="https://laincubator.org/">
+                    <div class="twae-media large"><img loading="lazy" decoding="async" width="1024" height="577"
+                      src="timeline/La-Kretz4360ppl_p.jpg" class="attachment-large size-large" alt=""
+                      sizes="(max-width: 1024px) 100vw, 1024px">
+                    </div>
+                    </a>
+                    <!-- Story Description -->
+                    <div class="twae-description">
+                      <p>Supported cleantech startup pilots through research, data analysis, and program evaluation. Contributed to impact reviews, streamlined tracking processes, and developed tools to improve pilot workflows and outreach strategies.</p>
+                    </div>
+                  </div>
+                </div>
+
+
+                <div id="story-dc2fcc3" class="twae-story twae-repeater-item twae-story-right twae-story-no-icon">
+                  <!-- Story Label -->
+                  <div class="twae-labels">
+                    <div class="twae-label-big">Aug 2025 - Current</div>
+                    <div class="twae-label-small">Los Angeles, CA</div>
+                  </div>
+                  <!-- Story Icon -->
+                  <div class="twae-icon" style="background-color: #f0f0f0; border-radius: 50%; padding: 0px;">
+                    <img src="timeline/Occidental_College-02-removebg-preview.png" alt="" />
+                  </div>
+                  <!-- Story Arrow -->
+                  <div class="twae-arrow"></div>
+                  <!-- Start of Story Content -->
+                  <div class="twae-content">
+                    <!-- Story Title -->
+                    <div class="twae-title">Occidental College - ITS Technician</div>
+                    <!-- Story Image -->
+                    <a href="https://www.oxy.edu/offices-services/its">
+                    <div class="twae-media large"><img loading="lazy" decoding="async" width="1024" height="576"
+                        src="timeline/oxy_its_1440x800.jpg" class="attachment-large size-large" alt=""
+                        sizes="(max-width: 1024px) 100vw, 1024px">
+                    </div>
+                    </a>
+                    <!-- Story Description -->
+                    <div class="twae-description">
+                      <p>Provided technical support for students, faculty, and staff, including troubleshooting hardware/software issues, maintaining campus technology, and assisting with classroom and event IT needs.</p>
+                    </div>
+                  </div>
+                </div>
+
+
+
               </div>
-
-
-
-            </div>
             <div class="twae-end"></div>
           </div>
         </div>
+      </div>
+      
 
     </section>
+
 
     <!-- Skills Section -->
     <section id="skills">
@@ -427,7 +361,6 @@
   <script src="modal.js"></script>
   <script src="scripts.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
-
   <script src="skills.js"></script>
 
 </body>

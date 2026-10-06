@@ -1,7 +1,5 @@
 # Personal Portfolio Website
 
-
-
 https://wesscarpa.github.io/index.html
 
 A fully custom-coded portfolio website built with HTML, CSS, and JavaScript to showcase projects, experience, and education. This project functions both as a professional portfolio and as an experimental front-end engineering platform focused on interactive design, animation, and creative programming.
@@ -15,11 +13,12 @@ A fully custom-coded portfolio website built with HTML, CSS, and JavaScript to s
 This website was built entirely from scratch without templates, frameworks, or site builders. The goal was not only to present projects, but to engineer the system behind the presentation.
 
 The site emphasizes:
-- Clean structural design  
-- Custom animation systems  
-- Interactive simulations  
-- Performance-conscious front-end development  
-- Scalable project organization  
+
+- Clean structural design
+- Custom animation systems
+- Interactive simulations
+- Performance-conscious front-end development
+- Scalable project organization
 
 It serves as both a portfolio and a sandbox for experimenting with browser-based creative coding.
 
@@ -51,11 +50,9 @@ Minimal dependencies, lightweight structure, and optimized animation handling.
 
 ## Tech Stack
 
-- HTML5 – Semantic structure and content organization  
-- CSS3 – Layout systems, animations, transforms, responsiveness  
-- Vanilla JavaScript – Interactivity, animation timing, event handling, DOM manipulation  
-
-No frameworks or templates were used.
+- HTML5 – Semantic structure and content organization
+- CSS3 – Layout systems, animations, transforms, responsiveness
+- Vanilla JavaScript – Interactivity, animation timing, event handling, DOM manipulation
 
 ---
 
@@ -63,14 +60,15 @@ No frameworks or templates were used.
 
 The project follows a clear separation of concerns:
 
-- `index.html` – Core structure  
-- `styles.css` – Styling and animations  
-- `script.js` – Interactive logic and dynamic components  
+- `index.html` – Core structure
+- `styles.css` – Styling and animations
+- `script.js` – Interactive logic and dynamic components
 
 Animations utilize:
-- CSS transitions and transforms  
-- `requestAnimationFrame` for smooth updates  
-- Event listeners for interaction control  
+
+- CSS transitions and transforms
+- `requestAnimationFrame` for smooth updates
+- Event listeners for interaction control
 
 ---
 
@@ -79,3 +77,4 @@ Animations utilize:
 1. Clone the repository:
    ```bash
    git clone <repository-url>
+   ```

@@ -4,24 +4,6 @@ document.addEventListener("DOMContentLoaded", function () {
   const body = document.body;
   const inputs = document.querySelectorAll("input, textarea");
 
-  const projectData = {
-    project1: {
-      title: "Wind Tunnel Simulation",
-      image: "project_files/windtunnelproject_photo.png",
-      description: "",
-    },
-    project2: {
-      title: "Project 2",
-      image: "images/project2.jpg",
-      description: "Description of Project 2.",
-    },
-    project3: {
-      title: "Project 3",
-      image: "images/project3.jpg",
-      description: "Description of Project 3.",
-    },
-  };
-
   //slide out side navigation
   const menuIcon = document.getElementById("menu-icon");
   const sideNav = document.getElementById("side-nav");
@@ -88,7 +70,7 @@ document.addEventListener("DOMContentLoaded", function () {
       () => {
         scrollY = window.pageYOffset || window.scrollY;
       },
-      { passive: true }
+      { passive: true },
     );
 
     function animate() {
